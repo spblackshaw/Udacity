@@ -11,7 +11,7 @@
 import sys
 from time import time
 sys.path.append("../tools/")
-from email_preprocess import preprocess
+from tools.email_preprocess import preprocess
 
 
 ### features_train and features_test are the features for the training
@@ -24,7 +24,7 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 #########################################################
 ### your code goes here ###
-
+print("here")
 
 #########################################################
 
