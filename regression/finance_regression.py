@@ -33,17 +33,13 @@ train_color = "b"
 test_color = "b"
 
 
-
 ### Your regression goes here!
 ### Please name it reg, so that the plotting code below picks it up and 
 ### plots it correctly. Don't forget to change the test_color above from "b" to
 ### "r" to differentiate training points from test points.
-
-
-
-
-
-
+from sklearn import linear_model
+clf = linear_model.LinearRegression()
+clf = clf.fit()
 
 
 ### draw the scatterplot, with color-coded training and testing points

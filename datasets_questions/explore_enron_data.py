@@ -19,5 +19,7 @@ import pandas as pd
 import joblib
 
 enron_data = joblib.load(open("./final_project/final_project_dataset.pkl", "rb"))
+df = pd.DataFrame.from_dict(enron_data, orient="index").reset_index().replace("NaN", 0)
+df2 = df[df["index"].str.contains("SKILLING") | df["index"].str.contains("FASTOW") | df["index"].str.contains("LAY")]
 print("here")
 
