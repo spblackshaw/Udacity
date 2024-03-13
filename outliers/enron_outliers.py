@@ -11,7 +11,7 @@ import pandas as pd
 
 ### read in data dictionary, convert to numpy array
 data_dict = joblib.load( open("./final_project/final_project_dataset.pkl", "rb") )
-# data_dict = data_dict.pop("TOTAL", 0)
+data_dict.pop("TOTAL", 0)
 features = ["salary", "bonus"]
 data = featureFormat(data_dict, features)
 

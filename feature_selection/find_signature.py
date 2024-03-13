@@ -2,17 +2,18 @@
 
 import joblib
 import numpy
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier
 numpy.random.seed(42)
 
 
 ### The words (features) and authors (labels), already largely processed.
 ### These files should have been created from the previous (Lesson 10)
 ### mini-project.
-words_file = "../text_learning/your_word_data.pkl" 
-authors_file = "../text_learning/your_email_authors.pkl"
-word_data = joblib.load( open(words_file, "r"))
-authors = joblib.load( open(authors_file, "r") )
-
+words_file = "./feature_selection/word_data_overfit.pkl" 
+authors_file = "./feature_selection/email_authors_overfit.pkl"
+word_data = joblib.load( open(words_file, "rb"))
+authors = joblib.load( open(authors_file, "rb") )
 
 
 ### test_size is the percentage of events assigned to the test set (the
@@ -34,9 +35,23 @@ features_test  = vectorizer.transform(features_test).toarray()
 features_train = features_train[:150].toarray()
 labels_train   = labels_train[:150]
 
-
-
 ### your code goes here
+clf = DecisionTreeClassifier().fit(features_train, labels_train)
+pred = clf.predict(features_test)
+acc = accuracy_score(pred, labels_test)
 
+importances = clf.feature_importances_
+max_import = [0, 0] # Index value, value
+counter = 0
+for i in range(len(importances)):
+    current = importances[i]
+    if current >= 0.2:
+        print(current)
+        counter += 1
+        if current > max_import[1]:
+            max_import = i, current
+print(max_import, counter)
 
+print(vectorizer.get_feature_names_out()[max_import[0]])
 
+print("here")

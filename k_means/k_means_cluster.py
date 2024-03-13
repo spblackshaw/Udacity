@@ -10,7 +10,7 @@ import numpy
 import matplotlib.pyplot as plt
 import sys
 sys.path.append(os.path.abspath("../tools/"))
-from feature_format import featureFormat, targetFeatureSplit
+from tools.feature_format import featureFormat, targetFeatureSplit
 
 def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
     """ some plotting code designed to help you visualize your clusters """
@@ -30,11 +30,12 @@ def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature
     plt.ylabel(f2_name)
     plt.savefig(name)
     plt.show()
+    print("here")
 
 
 
 ### load in the dict of dicts containing all the data on each person in the dataset
-data_dict = joblib.load( open("../final_project/final_project_dataset.pkl", "rb") )
+data_dict = joblib.load( open("./final_project/final_project_dataset.pkl", "rb") )
 ### there's an outlier--remove it! 
 data_dict.pop("TOTAL", 0)
 
@@ -43,8 +44,10 @@ data_dict.pop("TOTAL", 0)
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+# feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
+# features_list = [poi, feature_1, feature_2, feature_3]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -54,14 +57,22 @@ poi, finance_features = targetFeatureSplit( data )
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
 for f1, f2 in finance_features:
+
+# for f1, f2, _ in finance_features:
     plt.scatter( f1, f2 )
 plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
-
-
-
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import MinMaxScaler
+pred = []
+kmeans = KMeans(n_clusters=2)
+scaler = MinMaxScaler()
+scaler.fit(finance_features)
+scaled_finance_features = scaler.transform(finance_features)
+kmeans.fit(finance_features)
+pred = kmeans.predict(scaled_finance_features)
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file

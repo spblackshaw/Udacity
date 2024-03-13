@@ -10,6 +10,8 @@
     
 import sys
 from time import time
+
+from sklearn.tree import DecisionTreeClassifier
 sys.path.append("../tools/")
 from tools.email_preprocess import preprocess
 
@@ -24,6 +26,7 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 #########################################################
 ### your code goes here ###
+clf = DecisionTreeClassifier().fit(features_train, labels_train)
 print("here")
 
 #########################################################
